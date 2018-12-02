@@ -74,7 +74,7 @@ public class SPField {
         this.setSearchType(searchType);
         this.setRequired(required);
         try {
-            this.locator = SPSeleniumHelpers.getLocator
+            this.locator = SPHelpers.getLocator
                     (this.getSearchType(), this.getSearchValue());
         } catch (Exception e) {
             throw new ExceptionInInitializerError("Field Name '" + name + "', " + e.getLocalizedMessage());
@@ -132,6 +132,33 @@ public class SPField {
             }
             return null;
         }
+    }
+
+    private Object getCurrentIdentifier(){
+        /**
+         * for a simple element there is only 1, index = 0
+         */
+        return 0;
+    }
+
+    public WebElement getValue(@org.jetbrains.annotations.NotNull WebDriver driver){
+        return this.getValue(driver , this.getCurrentIdentifier());
+    }
+
+    public WebElement getValue(@org.jetbrains.annotations.NotNull WebDriver driver,Object identifier){
+        List<WebElement> retVal = this.findElements(driver);
+        return (retVal == null) ?
+                null : retVal.get((int)identifier);
+    }
+
+    public String getText(@org.jetbrains.annotations.NotNull WebDriver driver){
+        return getText(driver, this.getCurrentIdentifier());
+    }
+
+    public String getText(@org.jetbrains.annotations.NotNull WebDriver driver,Object identifier){
+        WebElement item = this.getValue(driver,identifier);
+        return (item == null) ?
+                null : item.getText();
     }
 
     private void setWaitTime(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {

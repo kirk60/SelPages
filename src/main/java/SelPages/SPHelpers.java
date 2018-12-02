@@ -22,15 +22,16 @@ import org.openqa.selenium.By;
  * @version 1
  * @since 2018-12-02
  *
- * <h1>SPSeleniumHelpers</h1>
+ * <h1>SPHelpers</h1>
  * Definitions and helper functions
  */
 
-public class SPSeleniumHelpers {
+public class SPHelpers {
 
     static final public String CLASS = "class";
-    static final public String CSS = "css";
     static final public String ID = "id";
+    static final public String CSS = "css";
+
     static final public String NAME = "name";
     static final public String PART_TEXT = "partText";
     static final public String TAG = "tag";
@@ -40,21 +41,21 @@ public class SPSeleniumHelpers {
     static By getLocator(String type, String match) {
 
         switch (type.toLowerCase()) {
-            case SPSeleniumHelpers.CLASS:
+            case SPHelpers.CLASS:
                 return By.className(match);
-            case SPSeleniumHelpers.CSS:
+            case SPHelpers.CSS:
                 return By.cssSelector(match);
-            case SPSeleniumHelpers.ID:
+            case SPHelpers.ID:
                 return By.id(match);
-            case SPSeleniumHelpers.NAME:
+            case SPHelpers.NAME:
                 return By.name(match);
-            case SPSeleniumHelpers.PART_TEXT:
+            case SPHelpers.PART_TEXT:
                 return By.partialLinkText(match);
-            case SPSeleniumHelpers.TAG:
+            case SPHelpers.TAG:
                 return By.tagName(match);
-            case SPSeleniumHelpers.TEXT:
+            case SPHelpers.TEXT:
                 return By.linkText(match);
-            case SPSeleniumHelpers.XPATH:
+            case SPHelpers.XPATH:
                 return By.xpath(match);
         }
         throw new IllegalArgumentException("requested search locator type '" + type + "' is not known");

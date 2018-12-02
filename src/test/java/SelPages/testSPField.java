@@ -25,6 +25,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
@@ -46,17 +47,45 @@ public class testSPField {
     public void setUp() {
         driver = new ChromeDriver();
         resourceHome = testConfig.resourcesDir + "/SelPages";
+        driver.get(this.fileUrl("testSPfield1.html"));
     }
 
     private String fileUrl(String fileName) {
         return "file://" + this.resourceHome + "/" + fileName;
     }
 
-    @Test
-    public void getFieldById() {
-        driver.get(this.fileUrl("testSPfield1.html"));
-        SPField fld = new SPField("idTest", "idTest", SPSeleniumHelpers.ID, false);
+    private Object [] [] testData = {
+            {SPHelpers.ID,"idTest"},
+            {SPHelpers.CLASS,"classTest"},
+            {SPHelpers.CSS,"body > span:nth-child(5) > ul > li"},
+            {SPHelpers.NAME,"nameTest"},
+
+    } ;
+
+    private void runTest(Object [] workingData){
+        SPField fld = new SPField((String)workingData[0] +"Name", (String)workingData[1], (String)workingData[0], false);
         List<WebElement> e1 = fld.findElements(driver);
         assertNotNull(e1);
+        assertEquals(fld.getText(driver), workingData[0] + "Text");
+        driver.close();
+    }
+
+    @Test
+    public void getFieldById() {
+        runTest(testData[0]);
+    }
+
+    @Test
+    public void getFieldByClass() {
+        runTest(testData[1]);
+    }
+
+    @Test
+    public void getFieldByCss() {
+        runTest(testData[2]);
+    }
+    @Test
+    public void getFieldByName() {
+        runTest(testData[3]);
     }
 }
