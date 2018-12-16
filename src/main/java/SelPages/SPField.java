@@ -64,7 +64,9 @@ public class SPField {
     @EqualsAndHashCode.Exclude
     @Getter
     private By locator;
+
     public SPField(String name, String searchValue, String searchType) {
+
         this(name, searchValue, searchType, false);
     }
 
