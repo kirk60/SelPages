@@ -33,7 +33,7 @@ public class SPHelpers {
     static final public String CSS = "css";
 
     static final public String NAME = "name";
-    static final public String PART_TEXT = "partText";
+    static final public String PART_TEXT = "parttext";
     static final public String TAG = "tag";
     static final public String TEXT = "text";
     static final public String XPATH = "xpath";

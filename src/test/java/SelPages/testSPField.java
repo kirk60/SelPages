@@ -59,11 +59,13 @@ public class testSPField {
             {SPHelpers.CLASS,"classTest"},
             {SPHelpers.CSS,"body > span:nth-child(5) > ul > li"},
             {SPHelpers.NAME,"nameTest"},
+            {SPHelpers.PART_TEXT, "parttext"},
+            {SPHelpers.XPATH, "/html/body/span[8]/span"},
 
     } ;
 
     private void runTest(Object [] workingData){
-        SPField fld = new SPField((String)workingData[0] +"Name", (String)workingData[1], (String)workingData[0], false);
+        SPField fld = new SPField(workingData[0] + "Name", (String) workingData[1], (String) workingData[0], false);
         List<WebElement> e1 = fld.findElements(driver);
         assertNotNull(e1);
         assertEquals(fld.getText(driver), workingData[0] + "Text");
@@ -84,8 +86,39 @@ public class testSPField {
     public void getFieldByCss() {
         runTest(testData[2]);
     }
+
     @Test
     public void getFieldByName() {
         runTest(testData[3]);
     }
+
+    @Test
+    public void getFieldByPartText() {
+        runTest(testData[4]);
+    }
+
+
+    @Test
+    public void getFieldByXpath() {
+        runTest(testData[5]);
+    }
+
+    @Test
+    public void getFieldByTag() {
+        SPField fld = new SPField("tagName", "button", SPHelpers.TAG);
+        List<WebElement> e1 = fld.findElements(driver);
+        assertNotNull(e1);
+        assertEquals(fld.getText(driver), "tagText");
+        driver.close();
+    }
+
+    @Test
+    public void getFieldByText() {
+        SPField fld = new SPField("textName", "textText", SPHelpers.TEXT);
+        List<WebElement> e1 = fld.findElements(driver);
+        assertNotNull(e1);
+        assertEquals(fld.getText(driver), "textText");
+        driver.close();
+    }
+
 }
