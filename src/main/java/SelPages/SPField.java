@@ -136,18 +136,18 @@ public class SPField {
         }
     }
 
+    /**
+     * for a simple element there is only 1, index = 0
+     */
     private Object getCurrentIdentifier(){
-        /**
-         * for a simple element there is only 1, index = 0
-         */
         return 0;
     }
 
-    public WebElement getValue(@org.jetbrains.annotations.NotNull WebDriver driver){
-        return this.getValue(driver , this.getCurrentIdentifier());
+    public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver) {
+        return this.getElement(driver, this.getCurrentIdentifier());
     }
 
-    public WebElement getValue(@org.jetbrains.annotations.NotNull WebDriver driver,Object identifier){
+    public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver, Object identifier) {
         List<WebElement> retVal = this.findElements(driver);
         return (retVal == null) ?
                 null : retVal.get((int)identifier);
@@ -158,7 +158,7 @@ public class SPField {
     }
 
     public String getText(@org.jetbrains.annotations.NotNull WebDriver driver,Object identifier){
-        WebElement item = this.getValue(driver,identifier);
+        WebElement item = this.getElement(driver, identifier);
         return (item == null) ?
                 null : item.getText();
     }
