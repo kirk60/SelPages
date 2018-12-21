@@ -28,5 +28,6 @@ package SelPages;
 
 public class testConfig {
 
-    public static final String resourcesDir = "/home/kirk/IdeaProjects/SelPages/src/test/test_resources";
+    public static final String resourcesDir = "/home/kirk/IdeaProjects/SelPages/src/test/resources";
+
 }

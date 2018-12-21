@@ -86,32 +86,12 @@ public class SPField {
 
     //
     //
-    //  implement findElement & findElements.
+    //  implement findElements.
     //  these are pretty much the same as as the Selenium
     //  versions !
+    //  NOTE : remove findElement ... I don't think it's needed
+    //  EG ==> findElement() == findElements()[0]
     //
-    //
-    public WebElement ZZfindElement(@org.jetbrains.annotations.NotNull WebDriver driver) {
-        return ZZfindElement(driver, 0);
-    }
-
-    public WebElement ZZfindElement(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {
-
-        this.setWaitTime(driver, millisecs);
-
-        //
-        // If the element is "required" then raising an exception is appropriate,
-        // otherwise return null (no element found) is appropriate
-        //
-        try {
-            return driver.findElement(this.getLocator());
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            if (this.required) {
-                throw (e);
-            }
-            return null;
-        }
-    }
 
 
     public List<WebElement> findElements(@org.jetbrains.annotations.NotNull WebDriver driver) {
@@ -133,6 +113,7 @@ public class SPField {
                 throw (e);
             }
             return null;
+
         }
     }
 

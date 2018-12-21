@@ -21,13 +21,14 @@ public class MyStepdefs {
         this.fld = new SPField(arg2 + "Name", arg1, arg2, false);
     }
 
-    @Then("^falidate field exists$")
-    public void falidate_field_exists() {
+    @Then("^validate field exists$")
+    public void validate_field_exists() {
         WebDriver driver = new ChromeDriver();
         String resourceHome = testConfig.resourcesDir + "/SelPages";
         driver.get(this.fileUrl("testSPfield1.html"));
         driver.close();
-
+        String a = testConfig.home();
+        String b = "";
     }
 
 

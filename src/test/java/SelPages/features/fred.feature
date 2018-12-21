@@ -2,7 +2,7 @@ Feature: SPField
 
   Scenario Outline: Create SPField objects
     Given I create a new SPField named "<fieldName>" of type "<fieldType>"
-    Then falidate field exists
+    Then validate field exists
 
 
     Examples:
