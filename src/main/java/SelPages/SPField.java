@@ -24,6 +24,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -64,6 +65,7 @@ public class SPField {
     @EqualsAndHashCode.Exclude
     @Getter
     private By locator;
+
 
     public SPField(String name, String searchValue, String searchType) {
 
@@ -106,15 +108,12 @@ public class SPField {
         // If the element is "required" then raising an exception is appropriate,
         // otherwise return null (no element found) is appropriate
         //
-        try {
-            return driver.findElements(this.getLocator());
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            if (this.required) {
-                throw (e);
-            }
-            return null;
-
+        List<WebElement> retVal = driver.findElements(this.getLocator());
+        if (retVal.size() == 0 && this.required) {
+            throw new org.openqa.selenium.NoSuchElementException(this.toString());
         }
+        return retVal;
+
     }
 
     /**
@@ -124,13 +123,26 @@ public class SPField {
         return 0;
     }
 
+    /**
+     * Return the "current" matching Web Element
+     *
+     * @param driver selenuim WebDriver
+     * @return individual web Element, based on the current identifier
+     */
     public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver) {
         return this.getElement(driver, this.getCurrentIdentifier());
     }
 
+    /**
+     * Return the requested (single) Web Element
+     *
+     * @param driver     selenuim WebDriver
+     * @param identifier somethingthat identifies the unique instance of the item (eg index, text valeue ..)
+     * @return individual web Element
+     */
     public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver, Object identifier) {
         List<WebElement> retVal = this.findElements(driver);
-        return (retVal == null) ?
+        return (retVal.size() == 0) ?
                 null : retVal.get((int)identifier);
     }
 
