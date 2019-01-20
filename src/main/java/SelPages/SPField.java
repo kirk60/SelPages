@@ -74,6 +74,7 @@ public class SPField {
 
     public SPField(String name, String searchValue, String searchType, Boolean required) {
         this.setName(name);
+
         this.setSearchValue(searchValue);
         this.setSearchType(searchType);
         this.setRequired(required);
@@ -159,4 +160,6 @@ public class SPField {
     private void setWaitTime(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {
         driver.manage().timeouts().implicitlyWait(millisecs, TimeUnit.MILLISECONDS);
     }
+
+
 }
