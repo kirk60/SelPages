@@ -49,6 +49,10 @@ import java.util.concurrent.TimeUnit;
 @EqualsAndHashCode
 public class SPField {
 
+
+    @Setter
+    @Getter
+    public Object currentIdentifier;
     @Setter
     @Getter
     private String name = null;
@@ -78,6 +82,7 @@ public class SPField {
         this.setSearchValue(searchValue);
         this.setSearchType(searchType);
         this.setRequired(required);
+        this.setCurrentIdentifier(0);
         try {
             this.locator = SPHelpers.getLocator
                     (this.getSearchType(), this.getSearchValue());
@@ -98,30 +103,30 @@ public class SPField {
 
 
     public List<WebElement> findElements(@org.jetbrains.annotations.NotNull WebDriver driver) {
-        return findElements(driver, 0);
+        return findElements(driver, null);
     }
 
     public List<WebElement> findElements(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {
 
-        this.setWaitTime(driver, millisecs);
+        if (millisecs != null) {
+            this.setWaitTime(driver, millisecs);
+        }
 
         //
         // If the element is "required" then raising an exception is appropriate,
         // otherwise return null (no element found) is appropriate
         //
         List<WebElement> retVal = driver.findElements(this.getLocator());
+        //
+        // reset the wait time !
+        //
+        this.setWaitTime(driver, 0);
         if (retVal.size() == 0 && this.required) {
             throw new org.openqa.selenium.NoSuchElementException(this.toString());
         }
+
         return retVal;
 
-    }
-
-    /**
-     * for a simple element there is only 1, index = 0
-     */
-    private Object getCurrentIdentifier(){
-        return 0;
     }
 
     /**
@@ -133,6 +138,7 @@ public class SPField {
     public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver) {
         return this.getElement(driver, this.getCurrentIdentifier());
     }
+
 
     /**
      * Return the requested (single) Web Element
@@ -157,9 +163,11 @@ public class SPField {
                 null : item.getText();
     }
 
-    private void setWaitTime(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {
+    public void setWaitTime(@org.jetbrains.annotations.NotNull WebDriver driver, Integer millisecs) {
         driver.manage().timeouts().implicitlyWait(millisecs, TimeUnit.MILLISECONDS);
     }
 
 
 }
+
+
