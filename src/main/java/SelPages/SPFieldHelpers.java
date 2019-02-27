@@ -17,6 +17,9 @@ package SelPages;
 
 import org.openqa.selenium.By;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Kirk Larson
  * @version 1
@@ -26,8 +29,11 @@ import org.openqa.selenium.By;
  * Definitions and helper functions
  */
 
-public class SPHelpers {
+public class SPFieldHelpers {
 
+    /**
+     * All the base selenium selectors mapto one of these
+     */
     static final public String CLASS = "class";
     static final public String ID = "id";
     static final public String CSS = "css";
@@ -38,24 +44,43 @@ public class SPHelpers {
     static final public String TEXT = "text";
     static final public String XPATH = "xpath";
 
+    static final List<String> simpleTypes = Arrays.asList(
+            CLASS, ID, CSS, NAME, PART_TEXT, TAG, TEXT, XPATH
+    );
+
+    /**
+     * @param type The field type (EG CLASS ...)
+     * @return true if the field type is valid for an SPField
+     */
+    static boolean simpleFieldType(String type) {
+
+        return simpleTypes.contains(type.toLowerCase());
+    }
+
+    /**
+     * @param type  Field matching to use (eg CLASS .. )
+     * @param match string to match eg if css then something like "body > span:nth-child(5) > ul > lia"
+     * @return a selenuim "By" which, to quote the docco
+     * "Provides a mechanism by which to find elements within a document."
+     */
     static By getLocator(String type, String match) {
 
         switch (type.toLowerCase()) {
-            case SPHelpers.CLASS:
+            case SPFieldHelpers.CLASS:
                 return By.className(match);
-            case SPHelpers.CSS:
+            case SPFieldHelpers.CSS:
                 return By.cssSelector(match);
-            case SPHelpers.ID:
+            case SPFieldHelpers.ID:
                 return By.id(match);
-            case SPHelpers.NAME:
+            case SPFieldHelpers.NAME:
                 return By.name(match);
-            case SPHelpers.PART_TEXT:
+            case SPFieldHelpers.PART_TEXT:
                 return By.partialLinkText(match);
-            case SPHelpers.TAG:
+            case SPFieldHelpers.TAG:
                 return By.tagName(match);
-            case SPHelpers.TEXT:
+            case SPFieldHelpers.TEXT:
                 return By.linkText(match);
-            case SPHelpers.XPATH:
+            case SPFieldHelpers.XPATH:
                 return By.xpath(match);
         }
         throw new IllegalArgumentException("requested search locator type '" + type + "' is not known");

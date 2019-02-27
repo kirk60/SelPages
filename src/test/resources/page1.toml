@@ -1,0 +1,7 @@
+
+[page]
+url="fred"
+includes=["fred","mary"]
+
+[fields]
+a=1

@@ -2,7 +2,7 @@ package SelPages.steps;
 
 import SelPages.SPField;
 import SelPages.SPFieldFactory;
-import SelPages.testConfig;
+import SelPages.TestConfig;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -32,7 +32,7 @@ public class SPFieldSteps {
         this.driver = new ChromeDriver(chromeOptions);
     }
     private String fileUrl(String fileName) {
-        return "file://" + testConfig.resourcesDir + "/SelPages" + "/" + fileName;
+        return "file://" + TestConfig.resourcesDir + "/SelPages" + "/" + fileName;
     }
 
 

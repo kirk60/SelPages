@@ -80,12 +80,13 @@
             <version>1.2.5</version>
             <type>pom</type>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.opencsv/opencsv -->
+        <!-- https://mvnrepository.com/artifact/com.moandjiezana.toml/toml4j -->
         <dependency>
-            <groupId>com.opencsv</groupId>
-            <artifactId>opencsv</artifactId>
-            <version>4.0</version>
+            <groupId>com.moandjiezana.toml</groupId>
+            <artifactId>toml4j</artifactId>
+            <version>0.7.2</version>
         </dependency>
+
 
     </dependencies>
 
