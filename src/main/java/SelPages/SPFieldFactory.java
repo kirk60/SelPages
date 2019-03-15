@@ -36,6 +36,19 @@ public class SPFieldFactory {
      * matchText : for the specified field type the text to match
      * --EG if type=css then matchText = "body > span:nth-child(5) > ul > lia"
      * required : true or false .. if true then raise an exception if the field is not found
+     *
+     * TODO ... unless thisgets more complex then blow it away !
+     * i think that this will end up having some sort of a switch based on the "type",
+     * and that multiple fields could result from specific types.
+     *
+     * EG
+     * type = inputField, where there is a description, input Field, and Error Field
+     * could cause 3 fields to be produced
+     * if name = fred, we could have
+     * fredTitle : the field where the description for fred would be
+     * fred      : the actual value for fred
+     * fredError : freds error field
+     *
      */
     public SPField newField(String request) {
         String[] fields = request.split(",");

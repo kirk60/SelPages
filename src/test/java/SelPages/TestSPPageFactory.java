@@ -7,10 +7,10 @@ import SelPages.TestConfig;
 
 import java.io.File;
 
-public class TestSPPage {
+public class TestSPPageFactory {
 
     @Test
-    public void multiplicationOfZeroIntegersShouldReturnZero() {
+    public void createNewPage() {
         String page = new File(TestConfig.resourcesDir, "page1.toml").toString();
         try {
             SPPage workingPage = SPPageFactory.getInstance().newPageFromFile(page, TestConfig.resourcesDir + "/SelPages");

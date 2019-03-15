@@ -2,17 +2,26 @@ package SelPages;
 
 
 import java.util.Hashtable;
-import java.util.Map;
+
+import lombok.Getter;
+import lombok.Setter;
 
 
 public class SPPage {
 
+    @Getter
+    @Setter
     private String url;
     private Hashtable<String, SPField> fields = new Hashtable<String, SPField>();
 
-    public SPPage(String url) {
-        this.url = url;
+    public SPPage() {
+        this.url = null;
     }
+
+    public SPPage(String url) {
+        setUrl(url);
+    }
+
 
     public void addField(SPField field) {
         fields.put(field.getName(), field);
