@@ -35,8 +35,8 @@ public class SPPageFactory {
 
     /**
      * @param fileName name of file to read
-     * @param baseUrl
-     * @return
+     * @param baseUrl this is prepended to the the value of url in the definition file
+     * @return a page object representing the defined page.
      * @throws Exception For the file extension perform the appropriate "readXXXX" method
      *                   this returns a map object
      */
@@ -54,6 +54,12 @@ public class SPPageFactory {
 
     /**
      * Add details to the supplied page
+     * - first process any included files
+     * - then add all fields
+     * - then set the url
+     *
+     * If a field is set in an included file, and it is defined in this file, it will be replaced.
+     * If the URL has been set in an included file it will reset here.
      *
      * @param newPage   pageObject
      * @param fileAsMap the details to add, this is a map
@@ -62,17 +68,18 @@ public class SPPageFactory {
      *                  -- url : the url of the page (prepended with baseUrl)
      *                  -- includes[] : list of file names to include
      *                  - fields
-     * @param baseUrl
+     * @param baseUrl prepend this to the supplied url. append "/" to the string if needed
+     *
      */
     private void addFileDetailsToPage(SPPage newPage, Map<String, Object> fileAsMap, String baseUrl) throws Exception {
 
         Map<String, Object> pageData = (Map<String, Object>) fileAsMap.get("page");
         Map<String, String> fieldData = (Map<String, String>) fileAsMap.get("fields");
 
-        //
-        //  NOTE : process all the includes first, this means that
-        // anything in the current file will over-ride anything that is included
-        //
+        if (baseUrl.length() > 0 && (!baseUrl.endsWith("/"))) {
+            baseUrl = baseUrl + "/";
+        }
+
         List<String> includeList = (List<String>) pageData.get("includes");
         for (String includeFile : includeList) {
             if (!alreadyVisited.contains(includeFile)) {
@@ -85,17 +92,22 @@ public class SPPageFactory {
             addField(newPage, fieldName, fieldData.get(fieldName));
         }
 
-        newPage.setUrl(baseUrl + pageData.get("url"));
+        String url = baseUrl + pageData.get("url");
+        newPage.setUrl(url.replace("//", "/"));
     }
 
     /**
      * add fieldName, if it already exists, blow away the old one !
      *
-     * @param newPage    page to add the field
-     * @param fieldName
-     * @param fieldValue
+     * @param newPage page to add the field
+     * @param fieldName suppliend name of field
+     * @param fieldValue text string releating to the specifics of the field
      */
-    private void addField(SPPage newPage, String fieldName, String fieldValue) {
+    private void addField(SPPage newPage, String fieldName, String fieldValue) throws Exception {
+        List<SPField> fields = SPFieldFactory.getInstance().newFields(fieldName, fieldValue);
+        for (SPField field : fields) {
+            newPage.addField(field);
+        }
     }
 
     /**

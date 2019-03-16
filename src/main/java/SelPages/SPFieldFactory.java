@@ -1,5 +1,8 @@
 package SelPages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Kirk Larson
  * @version 0.0.2 (Pre prototype)
@@ -27,38 +30,57 @@ public class SPFieldFactory {
     }
 
     /**
-     * @param request this is the request string in the format "name,type,matchText,required"
-     * @return an SPField
-     * <p>
-     * request params
-     * name : name of the field
-     * type : field type (class .... )
-     * matchText : for the specified field type the text to match
-     * --EG if type=css then matchText = "body > span:nth-child(5) > ul > lia"
-     * required : true or false .. if true then raise an exception if the field is not found
      *
-     * TODO ... unless thisgets more complex then blow it away !
-     * i think that this will end up having some sort of a switch based on the "type",
-     * and that multiple fields could result from specific types.
+     * build a structure that can be easily used by SPPageFactory, to add 1 (or more) fields to
      *
-     * EG
-     * type = inputField, where there is a description, input Field, and Error Field
-     * could cause 3 fields to be produced
-     * if name = fred, we could have
-     * fredTitle : the field where the description for fred would be
-     * fred      : the actual value for fred
-     * fredError : freds error field
+     * @param request this is the request string in the format "name,type,*details*" see "Details" below
+     * @return a map of <String, SPField>, this matches the format required in SPPageFactory to add fields
+     * @throws Exception basic exception with error message ..
+     *
+     * Details
+     * The details text depends on it's type
+     * - if type is defined in SPFieldHelpers.simpleTypes then
+     *      this is a simple field, call SPField
      *
      */
-    public SPField newField(String request) {
+    public List<SPField> newFields(String request) throws Exception {
+        String[] fields = request.split(",", 2);
+        return newFields(fields[0], fields[1]);
+    }
+
+    public List<SPField> newFields(String name, String request) throws Exception {
+        String[] fields = request.split(",", 2);
+
+        return newFields(name, fields[0], fields[1]);
+
+    }
+
+    public List<SPField> newFields(String name, String type, String request) throws Exception {
+        List<SPField> retVal = new ArrayList<>();
+        SPField workingField;
+
         String[] fields = request.split(",");
 
-        if (fields.length == 3) {
-            return new SPField(fields[0], fields[2], fields[1]);
-        } else {
-            Boolean tmp = fields[3].equalsIgnoreCase("true");
-            return new SPField(fields[0], fields[2], fields[1], tmp);
+        if (SPFieldHelpers.simpleTypes.contains(type)) {
+            if (fields.length == 0) {
+                throw new Exception("request format for " + type + " must have at lease a matchText field");
+            }
+
+            boolean required = false;
+
+            if (fields.length == 2) {
+                required = fields[1].equalsIgnoreCase("true");
+            }
+            workingField = new SPField(name, fields[0], type, required);
+
+            retVal.add(workingField);
+
         }
 
+        if (retVal.size() == 0) {
+            throw new Exception("un-recognised field type : " + type + " for field " + name);
+        }
+
+        return retVal;
     }
 }

@@ -15,6 +15,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import static org.hamcrest.Matchers.closeTo;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -48,7 +49,13 @@ public class SPFieldSteps {
 
     @Given("^I create a new SPField using Factory \"([^\"]*)\"$")
     public void i_create_a_new_SPField_using_FactoIsCloseTory(String arg1) {
-        this.fld = SPFieldFactory.getInstance().newField(arg1);
+        try {
+            List<SPField> val = SPFieldFactory.getInstance().newFields(arg1);
+            String[] tmp = arg1.split(",");
+            this.fld = val.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Then("^validate field exists on page \"([^\"]*)\" and contains text \"([^\"]*)\" within \"([^\"]*)\"$")
