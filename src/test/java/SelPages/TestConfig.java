@@ -16,6 +16,8 @@ package SelPages;
  ********************************************************************************************************/
 
 
+import java.nio.file.Paths;
+
 /**
  * @author Kirk Larson
  * @version 1
@@ -28,6 +30,8 @@ package SelPages;
 
 public class TestConfig {
 
-    public static final String resourcesDir = "/home/kirk/IdeaProjects/SelPages/src/test/resources";
+    public static String resourcesDir(){
+        return Paths.get("src/test/resources/").toAbsolutePath().normalize().toString();
+    }
 
 }

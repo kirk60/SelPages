@@ -1,0 +1,14 @@
+
+[page]
+url="fred"
+includes=[]
+
+[fields]
+classTest="class,classTest,classText"
+cssTest="css,body > span:nth-child(5) > ul > li,cssText"
+idTest="id,idTest,idText"
+nameTest="name,nameTest,nameText"
+parttextTest="parttext,parttext,parttextText"
+tagTest="tag,button,tagText"
+textTest="text,textText,textText"
+xpathTeat="xpath,/html/body/span[8]/span,xpathText"

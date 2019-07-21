@@ -33,7 +33,7 @@ public class SPFieldSteps {
         this.driver = new ChromeDriver(chromeOptions);
     }
     private String fileUrl(String fileName) {
-        return "file://" + TestConfig.resourcesDir + "/SelPages" + "/" + fileName;
+        return "file://" + TestConfig.resourcesDir() + "/SelPages" + "/" + fileName;
     }
 
 

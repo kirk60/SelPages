@@ -1,0 +1,7 @@
+
+[page]
+url="fred"
+includes=[]
+
+[fields]
+cssTest="cssxx,body > span:nth-child(5) > ul > li,cssText"

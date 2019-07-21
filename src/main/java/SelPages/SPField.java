@@ -30,8 +30,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Kirk Larson
- * @version 0.2
- * @since 2018-12-02
+ * @version 0.1
+ * @since 0.1
  *
  * <h1>SPField</h1>
  * This is a low level implementation of an html "field" using Selenium
@@ -142,7 +142,7 @@ public class SPField {
     /**
      *
      * @param driver selenuim WebDrivernull
-     * @return individual web Element, based on the current identifier
+     * @return individnxual web Element, based on the current identifier
      *
      */
     public WebElement getElement(@org.jetbrains.annotations.NotNull WebDriver driver) {
@@ -191,6 +191,22 @@ public class SPField {
     }
 
 
+    /**
+     *
+     * @param driver selenium web driver for this page
+     * @param timeout timeout in seconds
+     * @return true if the field is required & it exists or if the field is not required
+     */
+    public boolean validateField(@org.jetbrains.annotations.NotNull WebDriver driver, Integer timeout){
+        if( !  this.getRequired() ){
+            return true;
+        }
+        try {
+            return this.findElements(driver, timeout).size() > 0;
+        } catch ( Exception e){
+            return false;
+        }
+    }
 }
 
 

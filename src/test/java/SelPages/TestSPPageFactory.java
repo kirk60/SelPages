@@ -2,7 +2,6 @@ package SelPages;
 
 
 import org.junit.Test;
-import SelPages.TestConfig;
 
 
 import java.io.File;
@@ -10,12 +9,30 @@ import java.io.File;
 public class TestSPPageFactory {
 
     @Test
-    public void createNewPage() {
-        String page = new File(TestConfig.resourcesDir, "page1.toml").toString();
+    public void createGoodPage() {
+        boolean thrown = false;
+        String page = new File(TestConfig.resourcesDir(), "page_good.toml").toString();
+        SPPage workingPage = null;
         try {
-            SPPage workingPage = SPPageFactory.getInstance().newPageFromFile(page, TestConfig.resourcesDir + "/SelPages");
+            workingPage = SPPageFactory.getInstance().newPageFromFile(page, TestConfig.resourcesDir() + "/SelPages");
         } catch (Exception e) {
             e.printStackTrace();
+            thrown = true;
         }
+        assert ( !thrown );
     }
+    @Test
+    public void createGoodBad() {
+        boolean thrown = false;
+        String page = new File(TestConfig.resourcesDir(), "page_bad.toml").toString();
+        SPPage workingPage = null;
+        try {
+            workingPage = SPPageFactory.getInstance().newPageFromFile(page, TestConfig.resourcesDir() + "/SelPages");
+        } catch (Exception e) {
+            assert ("un-recognised field type : cssxx for field cssTest".equals(e.getLocalizedMessage()) );
+            thrown = true;
+        }
+        assert (thrown);
+    }
+
 }
