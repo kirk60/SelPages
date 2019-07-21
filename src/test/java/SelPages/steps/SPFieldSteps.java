@@ -36,15 +36,15 @@ public class SPFieldSteps {
         return "file://" + TestConfig.resourcesDir() + "/SelPages" + "/" + fileName;
     }
 
+    @After
+    public void afterScenario() {
+        this.driver.close();
+    }
+
 
     @Given("^I create a new SPField named \"([^\"]*)\" of type \"([^\"]*)\"$")
     public void i_create_a_new_SPField_named_of_type(String arg1, String arg2) {
         this.fld = new SPField(arg2 + "Name", arg1, arg2, false);
-    }
-
-    @After
-    public void afterScenario() {
-        this.driver.close();
     }
 
     @Given("^I create a new SPField using Factory \"([^\"]*)\"$")
