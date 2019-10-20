@@ -1,5 +1,5 @@
 
-# SPField
+# File SPFieldSteps
 
 ## Given I create a new SPField named "xxx" of type "class"
 
